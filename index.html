@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmasi Training Registration</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg1: #f8dfe6;
+      --bg2: #f9f0f3;
+      --card: #ffffff;
+      --accent: #ff6075;
+      --accent-dark: #ef445d;
+      --text: #1f1f1f;
+      --muted: #6b6b6b;
+      --line: #ffd6de;
+      --success: #16803c;
+      --error: #cf2f2f;
+      --shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--text);
+    }
+
+    body {
+      padding: 10px 10px 92px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 10px 8px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .5s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 82px;
+      background: radial-gradient(circle at top left, rgba(255,96,117,.10), transparent 60%);
+      pointer-events: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 6px;
+      perspective: 1200px;
+    }
+
+    .logo {
+      width: 120px;
+      max-width: 100%;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      animation: rotate3D 4.8s linear infinite;
+    }
+
+    @keyframes rotate3D {
+      0% { transform: rotateY(-360deg); }
+      100% { transform: rotateY(0deg); }
+    }
+
+    .title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      margin: 1px 0 3px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .status-open {
+      background: #e8f7ed;
+      color: #17763a;
+    }
+
+    .status-closed {
+      background: #ffe8ea;
+      color: #c62828;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .stat {
+      background: #fff8f9;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 6px 3px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+
+    .countdown-box,
+    .info-box,
+    .extra-box,
+    .last-box {
+      border: 1.5px solid var(--line);
+      background: #fffafa;
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 6px;
+    }
+
+    .box-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 5px;
+    }
+
+    .info-row,
+    .extra-row {
+      font-size: 11px;
+      line-height: 1.4;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+
+    .countdown-item {
+      text-align: center;
+      background: #fff;
+      border: 1px solid #ffe0e6;
+      border-radius: 8px;
+      padding: 6px 2px;
+    }
+
+    .countdown-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .countdown-label {
+      font-size: 8px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 10px 0 5px;
+    }
+
+    form {
+      margin-bottom: 8px;
+    }
+
+    input, button {
+      width: 100%;
+      font-family: inherit;
+    }
+
+    input {
+      padding: 9px;
+      margin-bottom: 5px;
+      font-size: 12px;
+      border-radius: 9px;
+      border: 1px solid #ddd;
+      background: #fff;
+      transition: .2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255, 96, 117, 0.12);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+      color: white;
+      box-shadow: 0 8px 16px rgba(255,96,117,.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--accent-dark);
+      border: 1.5px solid var(--line);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: .97;
+    }
+
+    .btn:disabled {
+      opacity: .7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .msg {
+      display: none;
+      margin-top: 6px;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.45;
+      font-weight: 700;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .msg.success {
+      background: #edf8f0;
+      color: var(--success);
+    }
+
+    .msg.error {
+      background: #fff0f0;
+      color: var(--error);
+    }
+
+    .actions {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .last-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .last-item {
+      background: #fff;
+      border: 1px solid #ffe4e8;
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .last-time {
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .map-btn {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+      color: white !important;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      padding: 14px;
+      background: rgba(0,0,0,.48);
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 420px;
+      max-height: 76vh;
+      overflow: auto;
+      background: white;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .schedule-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .schedule-item {
+      border: 1px solid #ffe0e5;
+      border-radius: 10px;
+      padding: 9px;
+      background: #fffafa;
+      text-align: left;
+    }
+
+    .schedule-time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 3px;
+    }
+
+    .schedule-text {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .close-btn {
+      margin-top: 10px;
+    }
+
+    .music-box {
+      position: fixed;
+      right: 8px;
+      bottom: 8px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: white;
+      border-radius: 12px;
+      padding: 6px 8px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.15);
+      z-index: 1000;
+    }
+
+    .music-btn {
+      width: auto;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #volume {
+      width: 68px;
+      accent-color: var(--accent-dark);
+    }
+
+    .live-popup {
+      position: fixed;
+      left: 10px;
+      bottom: 78px;
+      max-width: 230px;
+      background: white;
+      border: 1px solid #ffe1e6;
+      border-radius: 12px;
+      padding: 9px 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.12);
+      font-size: 11px;
+      z-index: 1100;
+      display: none;
+    }
+
+    .live-popup.show {
+      display: block;
+      animation: fadeUp .35s ease;
+    }
+
+    .live-popup.simulated {
+      border: 1px solid #ffb8c2;
+      box-shadow:
+        0 0 0 1px rgba(255,96,117,.12),
+        0 0 16px rgba(255,96,117,.20),
+        0 10px 20px rgba(0,0,0,.12);
+    }
+
+    .storm-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1300;
+    }
+
+    .fall-item {
+      position: absolute;
+      top: -120px;
+      pointer-events: none;
+      user-select: none;
+      will-change: transform;
+      animation: fall linear forwards;
+      opacity: .96;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-80px) rotate(0deg); }
+      100% { transform: translateY(115vh) rotate(540deg); }
+    }
+
+    .success-burst {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1250;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-burst.show {
+      display: flex;
+    }
+
+    .success-chip {
+      background: white;
+      color: var(--success);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid #dff3e4;
+      box-shadow: 0 14px 28px rgba(0,0,0,.12);
+      animation: pop .7s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(.7); opacity: 0; }
+      60% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #cancelWrap,
+    #extraBox {
+      display: none;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration: none;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="storm-layer" id="stormLayer"></div>
+
+  <div class="success-burst" id="successBurst">
+    <div class="success-chip">🎉 რეგისტრაცია წარმატებით დასრულდა!</div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="logo-wrap">
+        <img src="farmasi.png" alt="Farmasi Logo" class="logo" />
+      </div>
+
+      <div class="title">ტრენინგზე რეგისტრაცია</div>
+      <div class="subtitle" id="pageSubtitle">ფორმა იტვირთება...</div>
+
+      <div class="center">
+        <div id="statusBadge" class="status-badge status-open">OPEN</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">სულ რეგისტრაცია</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="statToday">0</div>
+          <div class="stat-label">დღეს</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="statLeft">∞</div>
+          <div class="stat-label">დარჩენილი</div>
+        </div>
+      </div>
+
+      <div class="countdown-box" id="countdownBox">
+        <div class="box-title">⏳ ტრენინგამდე დარჩენილი დრო</div>
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <div class="countdown-num" id="cdDays">0</div>
+            <div class="countdown-label">დღე</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cdHours">0</div>
+            <div class="countdown-label">საათი</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cdMinutes">0</div>
+            <div class="countdown-label">წუთი</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cdSeconds">0</div>
+            <div class="countdown-label">წამი</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <div class="box-title">📍 ტრენინგის დეტალები</div>
+        <div class="info-row" id="infoCity"></div>
+        <div class="info-row" id="infoDate"></div>
+        <div class="info-row" id="infoTime"></div>
+        <div class="info-row" id="infoLocation"></div>
+        <div class="info-row" id="infoHotel"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" id="scheduleBtn" type="button">სრული პროგრამა</button>
+      </div>
+
+      <div class="section-title">რეგისტრაცია</div>
+      <form id="registerForm">
+        <input type="text" id="first_name" name="first_name" placeholder="სახელი" required />
+        <input type="text" id="last_name" name="last_name" placeholder="გვარი" required />
+        <input type="text" id="city_area_village" name="city_area_village" placeholder="ქალაქი / რაიონი / სოფელი" />
+        <input type="tel" id="phone" name="phone" placeholder="ტელეფონის ნომერი" required />
+        <button class="btn btn-primary" id="registerBtn" type="submit">დარეგისტრირება</button>
+      </form>
+
+      <div id="registerSuccess" class="msg success">რეგისტრაცია წარმატებით დასრულდა ✅</div>
+      <div id="registerError" class="msg error">დაფიქსირდა შეცდომა ❌</div>
+
+      <button class="btn btn-secondary" id="toggleCancelBtn" type="button">რეგისტრაციის გაუქმება</button>
+
+      <div id="cancelWrap">
+        <div class="section-title">რეგისტრაციის გაუქმება</div>
+        <form id="cancelForm">
+          <input type="tel" id="cancel_phone" name="phone" placeholder="ტელეფონის ნომერი" required />
+          <button class="btn btn-secondary" id="cancelBtn" type="submit">გაუქმება</button>
+        </form>
+        <div id="cancelSuccess" class="msg success">რეგისტრაცია გაუქმდა ✅</div>
+        <div id="cancelError" class="msg error">გაუქმება ვერ შესრულდა ❌</div>
+      </div>
+
+      <button class="btn btn-secondary" id="toggleExtraBtn" type="button" style="margin-top:6px;">დამატებითი ინფორმაცია</button>
+
+      <div class="extra-box" id="extraBox">
+        <div class="box-title">ℹ️ დამატებითი ინფორმაცია</div>
+        <div id="extraFields"></div>
+      </div>
+
+      <div class="last-box">
+        <div class="box-title">🟢 ბოლო რეგისტრაცია</div>
+        <div class="last-list" id="lastRegistrations"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="scheduleModal">
+    <div class="modal-content">
+      <div class="modal-title">სრული პროგრამა</div>
+      <div class="schedule-list" id="scheduleList"></div>
+      <button class="btn btn-secondary close-btn" id="closeScheduleBtn" type="button">დახურვა</button>
+    </div>
+  </div>
+
+  <div class="live-popup" id="livePopup"></div>
+
+  <audio id="music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="boom" preload="auto">
+    <source src="boom.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="music-box">
+    <button id="playBtn" class="music-btn" type="button">🎵</button>
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.3">
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbyKXOA9Q-gbrz8IZx6ewRsEEn5h6fEo9sqsAuc6C2B4y8wbMvAhmtwqzeXWhKvbkZX7/exec";
+
+    let countdownTimer = null;
+    let livePopupTimer = null;
+    let simulatedPopupInterval = null;
+    let musicPlaying = false;
+    let firstInteractionMusicTried = false;
+
+    const fallImages = [
+      "gel100.png",
+      "gel200.png",
+      "usd100.png"
+    ];
+
+    const simulatedPeople = [
+      { name: "ანა მ.", phone: "599***211", area: "თბილისი" },
+      { name: "ნინო კ.", phone: "577***845", area: "ბათუმი" },
+      { name: "მარიამ ბ.", phone: "595***420", area: "ქუთაისი" },
+      { name: "თამთა გ.", phone: "555***318", area: "რუსთავი" },
+      { name: "სალომე დ.", phone: "598***771", area: "გორი" }
+    ];
+
+    const RESERVED_KEYS = new Set([
+      "max_registrations",
+      "registration_status",
+      "event_city",
+      "event_date",
+      "event_time",
+      "meeting_end_time",
+      "event_location",
+      "hotel_location",
+      "farewell",
+      "admin_phones",
+      "admin_chat_ids",
+      "schedule",
+      "reminder_day",
+      "reminder_2h"
+    ]);
+
+    const els = {
+      pageSubtitle: document.getElementById("pageSubtitle"),
+      statusBadge: document.getElementById("statusBadge"),
+      statTotal: document.getElementById("statTotal"),
+      statToday: document.getElementById("statToday"),
+      statLeft: document.getElementById("statLeft"),
+
+      infoCity: document.getElementById("infoCity"),
+      infoDate: document.getElementById("infoDate"),
+      infoTime: document.getElementById("infoTime"),
+      infoLocation: document.getElementById("infoLocation"),
+      infoHotel: document.getElementById("infoHotel"),
+
+      registerForm: document.getElementById("registerForm"),
+      cancelForm: document.getElementById("cancelForm"),
+      registerBtn: document.getElementById("registerBtn"),
+      cancelBtn: document.getElementById("cancelBtn"),
+
+      registerSuccess: document.getElementById("registerSuccess"),
+      registerError: document.getElementById("registerError"),
+      cancelSuccess: document.getElementById("cancelSuccess"),
+      cancelError: document.getElementById("cancelError"),
+
+      extraBox: document.getElementById("extraBox"),
+      extraFields: document.getElementById("extraFields"),
+      toggleExtraBtn: document.getElementById("toggleExtraBtn"),
+
+      countdownBox: document.getElementById("countdownBox"),
+      cdDays: document.getElementById("cdDays"),
+      cdHours: document.getElementById("cdHours"),
+      cdMinutes: document.getElementById("cdMinutes"),
+      cdSeconds: document.getElementById("cdSeconds"),
+
+      scheduleBtn: document.getElementById("scheduleBtn"),
+      scheduleModal: document.getElementById("scheduleModal"),
+      closeScheduleBtn: document.getElementById("closeScheduleBtn"),
+      scheduleList: document.getElementById("scheduleList"),
+
+      lastRegistrations: document.getElementById("lastRegistrations"),
+      livePopup: document.getElementById("livePopup"),
+
+      music: document.getElementById("music"),
+      boom: document.getElementById("boom"),
+      playBtn: document.getElementById("playBtn"),
+      volume: document.getElementById("volume"),
+
+      stormLayer: document.getElementById("stormLayer"),
+      successBurst: document.getElementById("successBurst"),
+
+      toggleCancelBtn: document.getElementById("toggleCancelBtn"),
+      cancelWrap: document.getElementById("cancelWrap")
+    };
+
+    els.music.volume = 0.3;
+    els.boom.volume = 0.55;
+
+    function safeText(v) {
+      return String(v || "").trim();
+    }
+
+    function isUrl(value) {
+      return /^https?:\/\//i.test(String(value || "").trim());
+    }
+
+    function makeLocationHtml(label, value) {
+      const v = safeText(value);
+      if (!v) return "";
+      if (isUrl(v)) {
+        return `${label}: <a href="${v}" target="_blank" rel="noopener noreferrer" class="map-btn">📍 რუკის გახსნა</a>`;
+      }
+      return `${label}: ${v}`;
+    }
+
+    function parseEventDateTime(config) {
+      const d = safeText(config.event_date);
+      const t = safeText(config.event_time);
+      if (!d || !t) return null;
+
+      let year, month, day;
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+        [year, month, day] = d.split("-").map(Number);
+      } else if (/^\d{2}\.\d{2}\.\d{4}$/.test(d)) {
+        const p = d.split(".").map(Number);
+        day = p[0]; month = p[1]; year = p[2];
+      } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(d)) {
+        const p = d.split("/").map(Number);
+        day = p[0]; month = p[1]; year = p[2];
+      } else {
+        const fallback = new Date(d + " " + t);
+        return isNaN(fallback.getTime()) ? null : fallback;
+      }
+
+      const tm = t.match(/^(\d{1,2}):(\d{2})$/);
+      if (!tm) return null;
+
+      return new Date(year, month - 1, day, Number(tm[1]), Number(tm[2]), 0, 0);
+    }
+
+    function renderStatus(status) {
+      els.statusBadge.textContent = String(status || "").toUpperCase();
+      els.statusBadge.className = "status-badge " + (status === "open" ? "status-open" : "status-closed");
+    }
+
+    function renderStats(data) {
+      els.statTotal.textContent = data.totalRegistrations ?? 0;
+      els.statToday.textContent = data.todayRegistrations ?? 0;
+      els.statLeft.textContent = data.spotsLeft === null ? "∞" : data.spotsLeft;
+    }
+
+    function renderInfo(config) {
+      els.pageSubtitle.textContent = safeText(config.farewell) || "დროულად გაიარე რეგისტრაცია";
+      els.infoCity.innerHTML = makeLocationHtml("📌 ქალაქი", config.event_city);
+      els.infoDate.innerHTML = `📅 თარიღი: ${safeText(config.event_date)}`;
+      els.infoTime.innerHTML = `🕒 დრო: ${safeText(config.event_time)}`;
+      els.infoLocation.innerHTML = makeLocationHtml("🏢 ლოკაცია", config.event_location);
+      els.infoHotel.innerHTML = safeText(config.hotel_location)
+        ? makeLocationHtml("🏨 სასტუმრო", config.hotel_location)
+        : "";
+    }
+
+    function renderExtraFields(config) {
+      const extra = Object.keys(config || {}).filter(k => !RESERVED_KEYS.has(k));
+      els.extraFields.innerHTML = "";
+
+      if (!extra.length) {
+        els.extraFields.innerHTML = `<div class="extra-row">დამატებითი ინფორმაცია არ არის.</div>`;
+        return;
+      }
+
+      extra.forEach(key => {
+        const value = safeText(config[key]);
+        if (!value) return;
+
+        const row = document.createElement("div");
+        row.className = "extra-row";
+
+        const prettyKey = key.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+        if (isUrl(value)) {
+          row.innerHTML = `<strong>${prettyKey}:</strong> <a href="${value}" target="_blank" rel="noopener noreferrer">${value}</a>`;
+        } else {
+          row.innerHTML = `<strong>${prettyKey}:</strong> ${value}`;
+        }
+
+        els.extraFields.appendChild(row);
+      });
+    }
+
+    function renderSchedule(config) {
+      const raw = safeText(config.schedule);
+      els.scheduleList.innerHTML = "";
+
+      if (!raw) {
+        els.scheduleList.innerHTML = `<div class="schedule-item"><div class="schedule-text">პროგრამა ჯერ დამატებული არ არის.</div></div>`;
+        return;
+      }
+
+      const lines = raw.split("\n").map(x => x.trim()).filter(Boolean);
+
+      lines.forEach(line => {
+        const item = document.createElement("div");
+        item.className = "schedule-item";
+
+        const match = line.match(/^(\d{1,2}:\d{2})\s*-\s*(.+)$/);
+
+        if (match) {
+          item.innerHTML = `
+            <div class="schedule-time">${match[1]}</div>
+            <div class="schedule-text">${match[2]}</div>
+          `;
+        } else {
+          item.innerHTML = `<div class="schedule-text">${line}</div>`;
+        }
+
+        els.scheduleList.appendChild(item);
+      });
+    }
+
+    function renderLastRegistrations(items) {
+      els.lastRegistrations.innerHTML = "";
+      const one = (items || []).slice(0, 1);
+
+      if (!one.length) {
+        els.lastRegistrations.innerHTML = `<div class="last-item">ჯერ რეგისტრაცია არ დაფიქსირებულა.</div>`;
+        return;
+      }
+
+      one.forEach(item => {
+        const box = document.createElement("div");
+        box.className = "last-item";
+        box.innerHTML = `
+          <div><strong>${safeText(item.name)}</strong></div>
+          <div>${safeText(item.phone)}</div>
+          <div class="last-time">${safeText(item.time)}</div>
+        `;
+        els.lastRegistrations.appendChild(box);
+      });
+    }
+
+    function startCountdown(config) {
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      const eventDate = parseEventDateTime(config);
+      if (!eventDate) {
+        els.countdownBox.style.display = "none";
+        return;
+      }
+
+      els.countdownBox.style.display = "block";
+
+      const update = () => {
+        const now = new Date();
+        const diff = eventDate.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          els.cdDays.textContent = "0";
+          els.cdHours.textContent = "0";
+          els.cdMinutes.textContent = "0";
+          els.cdSeconds.textContent = "0";
+          return;
+        }
+
+        els.cdDays.textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+        els.cdHours.textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        els.cdMinutes.textContent = Math.floor((diff / (1000 * 60)) % 60);
+        els.cdSeconds.textContent = Math.floor((diff / 1000) % 60);
+      };
+
+      update();
+      countdownTimer = setInterval(update, 1000);
+    }
+
+    function showMessage(type, text, target) {
+      target.textContent = text;
+      target.className = "msg " + type;
+      target.style.display = "block";
+    }
+
+    function hideMessages() {
+      [
+        els.registerSuccess,
+        els.registerError,
+        els.cancelSuccess,
+        els.cancelError
+      ].forEach(el => {
+        el.style.display = "none";
+      });
+    }
+
+    function createBurstStorm() {
+      const total = 24;
+      for (let i = 0; i < total; i++) {
+        const img = document.createElement("img");
+        img.src = fallImages[Math.floor(Math.random() * fallImages.length)];
+        img.className = "fall-item";
+        img.style.left = Math.random() * 100 + "vw";
+        img.style.animationDuration = (2.8 + Math.random() * 1.8) + "s";
+        img.style.animationDelay = (Math.random() * 0.35) + "s";
+        img.style.width = (42 + Math.random() * 22) + "px";
+        img.style.transform = `rotate(${Math.random() * 50 - 25}deg)`;
+        els.stormLayer.appendChild(img);
+
+        setTimeout(() => img.remove(), 5500);
+      }
+    }
+
+    function fadeInMusic(targetVolume = 0.3, duration = 900) {
+      const audio = els.music;
+      const steps = 12;
+      const stepTime = Math.max(40, Math.floor(duration / steps));
+      let currentStep = 0;
+
+      audio.volume = 0.01;
+
+      const timer = setInterval(() => {
+        currentStep += 1;
+        audio.volume = Math.min(targetVolume, (targetVolume / steps) * currentStep);
+
+        if (currentStep >= steps) {
+          clearInterval(timer);
+          audio.volume = targetVolume;
+        }
+      }, stepTime);
+    }
+
+    async function tryStartMusic() {
+      if (musicPlaying) return;
+
+      try {
+        await els.music.play();
+        musicPlaying = true;
+        els.playBtn.textContent = "🔇";
+        fadeInMusic(parseFloat(els.volume.value), 600);
+      } catch (e) {
+        console.log("მუსიკა არ ჩაირთო:", e);
+      }
+    }
+
+    function triggerRewardEffects() {
+      try {
+        els.boom.currentTime = 0;
+        els.boom.play().catch(() => {});
+      } catch (e) {}
+
+      if (navigator.vibrate) {
+        navigator.vibrate([120, 50, 120]);
+      }
+
+      els.successBurst.classList.add("show");
+      createBurstStorm();
+
+      setTimeout(() => {
+        els.successBurst.classList.remove("show");
+      }, 1000);
+    }
+
+    function showLivePopup(item, isSimulated = false) {
+      if (!item) return;
+      if (livePopupTimer) clearTimeout(livePopupTimer);
+
+      const area = item.area ? `<small>${safeText(item.area)}</small><br>` : "";
+      const badge = "ახალი რეგისტრაცია";
+
+      els.livePopup.classList.remove("show", "simulated");
+
+      els.livePopup.innerHTML = `
+        <strong>${badge}</strong><br>
+        ${safeText(item.name)}<br>
+        ${area}
+        <small>${safeText(item.time || "")}</small>
+      `;
+
+      els.livePopup.classList.add("show");
+
+      livePopupTimer = setTimeout(() => {
+        els.livePopup.classList.remove("show", "simulated");
+      }, 3200);
+    }
+
+    function maybeShowLivePopup(items) {
+      if (!items || !items.length) return;
+      showLivePopup(items[0], false);
+    }
+
+    function startSimulatedRegistrations() {
+      if (simulatedPopupInterval) clearInterval(simulatedPopupInterval);
+
+      simulatedPopupInterval = setInterval(() => {
+        const person = simulatedPeople[Math.floor(Math.random() * simulatedPeople.length)];
+        const simulated = {
+          name: person.name,
+          phone: person.phone,
+          area: person.area,
+          time: new Date().toLocaleTimeString("ka-GE", {
+            hour: "2-digit",
+            minute: "2-digit"
+          })
+        };
+
+        showLivePopup(simulated, true);
+      }, 16000);
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+
+        if (!data.ok) {
+          els.pageSubtitle.textContent = "მონაცემების ჩატვირთვა ვერ მოხერხდა";
+          return;
+        }
+
+        renderStatus(data.status);
+        renderStats(data);
+        renderInfo(data.config || {});
+        renderExtraFields(data.config || {});
+        renderSchedule(data.config || {});
+        renderLastRegistrations(data.lastRegistrations || []);
+        startCountdown(data.config || {});
+        maybeShowLivePopup(data.lastRegistrations || []);
+      } catch (e) {
+        els.pageSubtitle.textContent = "მონაცემების ჩატვირთვა ვერ მოხერხდა";
+      }
+    }
+
+    async function postAction(fields) {
+      const formData = new FormData();
+      Object.keys(fields).forEach(key => formData.append(key, fields[key]));
+
+      await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors"
+      });
+    }
+
+    async function submitRegisterForm(e) {
+      e.preventDefault();
+      hideMessages();
+
+      els.registerBtn.disabled = true;
+      els.registerBtn.textContent = "იგზავნება...";
+
+      try {
+        await postAction({
+          action: "register",
+          first_name: document.getElementById("first_name").value,
+          last_name: document.getElementById("last_name").value,
+          city_area_village: document.getElementById("city_area_village").value,
+          phone: document.getElementById("phone").value
+        });
+
+        els.registerForm.reset();
+        showMessage("success", "რეგისტრაცია წარმატებით დასრულდა ✅", els.registerSuccess);
+        triggerRewardEffects();
+        await loadData();
+      } catch (err) {
+        showMessage("error", "დაფიქსირდა შეცდომა ❌", els.registerError);
+      } finally {
+        els.registerBtn.disabled = false;
+        els.registerBtn.textContent = "დარეგისტრირება";
+      }
+    }
+
+    async function submitCancelForm(e) {
+      e.preventDefault();
+      hideMessages();
+
+      els.cancelBtn.disabled = true;
+      els.cancelBtn.textContent = "იგზავნება...";
+
+      try {
+        await postAction({
+          action: "cancel",
+          phone: document.getElementById("cancel_phone").value
+        });
+
+        els.cancelForm.reset();
+        showMessage("success", "გაუქმების მოთხოვნა გაიგზავნა ✅", els.cancelSuccess);
+        await loadData();
+      } catch (err) {
+        showMessage("error", "გაუქმება ვერ შესრულდა ❌", els.cancelError);
+      } finally {
+        els.cancelBtn.disabled = false;
+        els.cancelBtn.textContent = "გაუქმება";
+      }
+    }
+
+    function setupMusic() {
+      els.music.volume = parseFloat(els.volume.value);
+
+      els.playBtn.addEventListener("click", async () => {
+        try {
+          if (!musicPlaying) {
+            await els.music.play();
+            musicPlaying = true;
+            els.playBtn.textContent = "🔇";
+            fadeInMusic(parseFloat(els.volume.value), 600);
+          } else {
+            els.music.pause();
+            musicPlaying = false;
+            els.playBtn.textContent = "🎵";
+          }
+        } catch (e) {
+          alert("მუსიკა ვერ ჩაირთო. გადაამოწმე music.mp3 ფაილი.");
+        }
+      });
+
+      els.volume.addEventListener("input", () => {
+        els.music.volume = parseFloat(els.volume.value);
+      });
+
+      const firstInteractionHandler = async () => {
+        if (firstInteractionMusicTried) return;
+        firstInteractionMusicTried = true;
+        await tryStartMusic();
+      };
+
+      document.addEventListener("click", firstInteractionHandler, { once: true });
+      document.addEventListener("touchstart", firstInteractionHandler, { once: true });
+    }
+
+    function setupModal() {
+      els.scheduleBtn.addEventListener("click", () => {
+        els.scheduleModal.classList.add("open");
+      });
+
+      els.closeScheduleBtn.addEventListener("click", () => {
+        els.scheduleModal.classList.remove("open");
+      });
+
+      els.scheduleModal.addEventListener("click", (e) => {
+        if (e.target === els.scheduleModal) {
+          els.scheduleModal.classList.remove("open");
+        }
+      });
+    }
+
+    function setupToggles() {
+      els.toggleCancelBtn.addEventListener("click", () => {
+        els.cancelWrap.style.display =
+          els.cancelWrap.style.display === "block" ? "none" : "block";
+      });
+
+      els.toggleExtraBtn.addEventListener("click", () => {
+        els.extraBox.style.display =
+          els.extraBox.style.display === "block" ? "none" : "block";
+      });
+    }
+
+    async function init() {
+      setupMusic();
+      setupModal();
+      setupToggles();
+
+      els.registerForm.addEventListener("submit", submitRegisterForm);
+      els.cancelForm.addEventListener("submit", submitCancelForm);
+
+      startSimulatedRegistrations();
+      await loadData();
+    }
+
+    init();
+  </script>
+</body>
+</html>
